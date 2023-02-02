@@ -1,6 +1,5 @@
 name: gh-runner-autoscaling
-on: 
-  workflow-dispatch
+on:
   schedule:
   - cron: "0 * * * *"
 jobs:
