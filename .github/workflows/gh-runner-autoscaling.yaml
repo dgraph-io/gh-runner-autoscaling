@@ -1,0 +1,37 @@
+name: gh-runner-autoscaling
+on: 
+  workflow-dispatch
+  schedule:
+  - cron: "0 * * * *"
+jobs:
+  gh-runner-autoscaling:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Python requirements.txt
+        run: |
+          #!/bin/bash
+          cd src
+          pip install -r requirements.txt
+      - name: AutoScaling
+        run: | 
+          #!/bin/bash
+          # setup environment
+          export GH_TOKEN=${{ secrets.GH_TOKEN }}
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # change directory
+          cd src
+          # setup config.yaml
+          sed -i -e "s/@@AWS_LAUNCH_TEMPLATE_ID_AMD64@@/${{ secrets.AWS_LAUNCH_TEMPLATE_ID_AMD64 }}/g" config.template.yaml 
+          sed -i -e "s/@@AWS_LAUNCH_TEMPLATE_NAME_AMD64@@/${{ secrets.AWS_LAUNCH_TEMPLATE_NAME_AMD64 }}/g" config.template.yaml 
+          sed -i -e "s/@@AWS_LAUNCH_TEMPLATE_ID_ARM64@@/${{ secrets.AWS_LAUNCH_TEMPLATE_ID_ARM64 }}/g" config.template.yaml 
+          sed -i -e "s/@@AWS_LAUNCH_TEMPLATE_NAME_ARM64@@/${{ secrets.AWS_LAUNCH_TEMPLATE_NAME_ARM64 }}/g" config.template.yaml 
+          sed -i -e "s/@@AWS_REGION@@/${{ secrets.AWS_REGION }}/g" config.template.yaml 
+          mv config.template.yaml config.yaml
+          # autoscaling
+          python scale.py auto
