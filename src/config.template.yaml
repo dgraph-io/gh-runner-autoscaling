@@ -18,6 +18,12 @@ github_repositories:
       - ci-dgraph-tests
       - ci-dgraph-load-tests
       - ci-dgraph-code-coverage
+  - GITHUB_REPOSITORY: badger
+    GITHUB_OWNER: dgraph-io
+    SELF_HOSTED_WORKFLOWS_ARM64:
+      - cd-badger
+    SELF_HOSTED_WORKFLOWS_AMD64:
+      - ci-dgraph-tests
 orchestrator:
   GITHUB_RATELIMIT_TIMEWAIT_SECONDS: 300
   AWS_RATELIMIT_TIMEWAIT_SECONDS: 10
