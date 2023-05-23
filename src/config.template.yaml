@@ -18,6 +18,7 @@ github_repositories:
       - ci-dgraph-tests
       - ci-dgraph-load-tests
       - ci-dgraph-code-coverage
+      - ci-dgraph-upgrade-tests
   - GITHUB_REPOSITORY: badger
     GITHUB_OWNER: dgraph-io
     SELF_HOSTED_WORKFLOWS_ARM64:
