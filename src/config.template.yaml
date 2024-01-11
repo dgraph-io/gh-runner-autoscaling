@@ -1,0 +1,21 @@
+# config file for gh-runner-autoscaling
+aws:
+  launch_templates:
+    amd64:
+      id: @@AWS_LAUNCH_TEMPLATE_ID_AMD64@@ # TODO: needs configuration
+      name: @@AWS_LAUNCH_TEMPLATE_NAME_AMD64@@ # TODO: needs configuration
+    arm64:
+      id: @@AWS_LAUNCH_TEMPLATE_ID_ARM64@@ # TODO: needs configuration
+      name: @@AWS_LAUNCH_TEMPLATE_NAME_ARM64@@ # TODO: needs configuration
+  region: @@AWS_REGION@@  # TODO: needs configuration
+github_repositories:
+  - GITHUB_REPOSITORY: dgraph
+    GITHUB_OWNER: dgraph-io
+    SELF_HOSTED_WORKFLOWS_ARM64:
+      - ci-dgraph-tests-arm64
+    SELF_HOSTED_WORKFLOWS_AMD64:
+      - ci-dgraph-tests
+orchestrator:
+  GITHUB_RATELIMIT_TIMEWAIT_SECONDS: 300
+  AWS_RATELIMIT_TIMEWAIT_SECONDS: 10
+  GITHUB_RUNNER_TIMEOUT_SECONDS: 3240 # 54min
